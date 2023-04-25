@@ -47,8 +47,13 @@
 
             //Desenho da raquete direita
             canvasCtx.fillStyle = "#ffffff";
-            canvasCtx.fillRect( window.innerWidth - lineWidth -gapX, 240, lineWidth, 200);
-            
+            canvasCtx.fillRect(window.innerWidth - lineWidth -gapX, 240, lineWidth, 200);
+
+            //Desenho da bola |arc(x, y, raio, 0, 2.0 * math.PI, FALSE) 
+            canvasCtx.fillStyle = "#ffffff";
+            canvasCtx.beginPath();
+            canvasCtx.arc(120, 240, 20, 0, 2 * Math.PI, false);
+            canvasCtx.fill();
         }
 
         Setup();
