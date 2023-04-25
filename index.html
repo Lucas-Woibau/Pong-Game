@@ -14,50 +14,8 @@
     </style>
 </head>
 <body>
+
     <canvas></canvas>
-
-    <script>
-        const canvasEl = document.querySelector("canvas"),
-        canvasCtx = canvasEl.getContext("2d"),
-        gapX = 10;
-
-        const lineWidth = 15;
-
-        function Setup(){       //Definir as dimensões do canvas context
-            canvasEl.width = canvasCtx.width = window.innerWidth;
-            //canvasEl.height = window.innerHeight;
-
-            canvasEl.height = canvasCtx.height = window.innerHeight;
-            //canvasCtx.height = window.innerHeight;
-        }
-
-        function Draw(){    
-            //Desenho do campo
-            canvasCtx.fillStyle = "#000000";
-            canvasCtx.fillRect(0,0, window.innerWidth, window.innerHeight); //(x,y,largura,altura)
-
-            //Desenho da linha central
-            canvasCtx.fillStyle = "#ffffff";
-            //x = largura do campo / 2 - espessura da linha / 2, lineWidth = espessura da linha, A = altura do campo
-            canvasCtx.fillRect(window.innerWidth / 2 - lineWidth / 2, 0, lineWidth, window.innerHeight);
-
-            //Desenho da raquete esquerda
-            canvasCtx.fillStyle = "#ffffff";
-            canvasCtx.fillRect(gapX, 240, lineWidth, 200);
-
-            //Desenho da raquete direita
-            canvasCtx.fillStyle = "#ffffff";
-            canvasCtx.fillRect(window.innerWidth - lineWidth -gapX, 240, lineWidth, 200);
-
-            //Desenho da bola |arc(x, y, raio, 0, 2.0 * math.PI, FALSE) 
-            canvasCtx.fillStyle = "#ffffff";
-            canvasCtx.beginPath();
-            canvasCtx.arc(120, 240, 20, 0, 2 * Math.PI, false);
-            canvasCtx.fill();
-        }
-
-        Setup();
-        Draw();
-    </script>
+    <script src="game.js"></script>
 </body>
 </html>
