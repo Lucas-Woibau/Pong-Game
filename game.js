@@ -19,11 +19,32 @@ const mouse = {x: 0, y: 0}
             h: field.h,
 
             draw: function(){
-                //Desenho da linha central
+            //Desenho da linha central
             canvasCtx.fillStyle = "#ffffff";
             //x = largura do campo / 2 - espessura da linha / 2, lineWidth = espessura da linha, A = altura do campo
             canvasCtx.fillRect(field.w / 2 - this.w / 2, 0, this.w, this.h)
             },
+        }
+
+        const score = {
+            human: 0,
+            computer: 0,
+
+            increaseHuman: function (){
+                this.human++;
+            },
+
+            increseaseComputer: function(){
+                this.computer++;
+            },
+
+            draw:function(){
+                canvasCtx.font = "bold 72px Arial"
+                canvasCtx.textAlign = "center"
+                canvasCtx.textBaseline = "#01341D"
+                canvasCtx.fillText(this.human, field.w / 4, 100)
+                canvasCtx.fillText(this.computer, field.w / 2 + field.w / 4, 100)
+            }, 
         }
 
         const leftPaddle = {
@@ -37,7 +58,7 @@ const mouse = {x: 0, y: 0}
             },
 
             draw: function(){
-                            //Desenho da raquete esquerda
+            //Desenho da raquete esquerda
             canvasCtx.fillStyle = "#ffffff";
             canvasCtx.fillRect(this.x, this.y, this.w, this.h)
 
@@ -55,7 +76,7 @@ const mouse = {x: 0, y: 0}
             },
 
             draw: function(){
-                            //Desenho da raquete direita
+            //Desenho da raquete direita
             canvasCtx.fillStyle = "#ffffff";
             canvasCtx.fillRect(this.x, this.y, this.w, this.h)
 
@@ -69,22 +90,69 @@ const mouse = {x: 0, y: 0}
             y: field.h / 2,
             r: 20,
             speed: 5,
+            directionX:1,
+            directionY:1,
+    
             _calcPosition: function(){
-                
+            //Verifica se o jogador 1(humano) fez um ponto
+                if(this.x > field.w - this.r - rightPaddle.w - gapX){
+                    if(this.y + this.r > rightPaddle.y && this.y - this.r < rightPaddle.y + rightPaddle.h){
+                        //Rebater a bola
+                        this._reverseX();
+                    }else{
+                        //Fazer o ponto
+                        score.increaseHuman();
+                        
+                    }
+                }
+
+                //Verifica se o jogador 2(computador) fez um ponto
+
+                if(this.x < this.r + leftPaddle.w + gapX){
+                    if(this.y + this.r > leftPaddle.y &&
+                     this.y - this.r < leftPaddle.y + leftPaddle.h)
+                    //Rebater a bola
+                    this._reverseX();
+                }else{
+                    //Faz o ponto
+                    score.increseaseComputer();
+                    
+                }
+
+            //Calcula a posição vertical da bola (Eixo Y)
+                if(
+                (this.y - this.r < 0 && this.directionY < 0) ||
+                (this.y > field.h - this.r && this.directionY > 0)){
+                    this._reverseY()
+                }
             },
 
-            _move: function(){  //Animando a bola
-                this.x += this.speed;
-                this.y += this.speed;
+            _reverseX: function(){
+                this.directionX *= -1;
+            },
+
+            _reverseY: function(){
+                this.directionY *= -1;
+            },
+
+            _move: function(){ //Animando a bola
+                this.x += this.directionX * this.speed;
+                this.y += this.directionY * this.speed;
+            },
+
+            _pointUp: function(){
+                this.x = field.w / 2;
+                this.y = field.h / 2;
             },
 
             draw: function(){
-                //Desenho da bola |arc(x, y, raio, 0, 2.0 * math.PI, FALSE) 
+            //Desenho da bola |arc(x, y, raio, 0, 2.0 * math.PI, FALSE) 
             canvasCtx.fillStyle = "#ffffff";
             canvasCtx.beginPath();
             canvasCtx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
             canvasCtx.fill();
 
+            this._calcPosition();
             this._move();
 
             }
@@ -101,6 +169,7 @@ const mouse = {x: 0, y: 0}
         function draw(){    
             field.draw();
             line.draw();
+            score.draw();
 
             leftPaddle.draw();
             rightPaddle.draw();
@@ -108,8 +177,8 @@ const mouse = {x: 0, y: 0}
             ball.draw();
         }
 
-        //Chama todas as funções possíveis de animateFrame para cada navegador caso a chamada
-        //oficial não funcione
+            //Chama todas as funções possíveis de animateFrame para cada navegador caso a chamada
+            //oficial não funcione
         window.animateFrame = (function(){
             return (
                 window.requestAnimationFrame ||
@@ -131,6 +200,7 @@ const mouse = {x: 0, y: 0}
         setup();
         main();
 
+        //Adicionando evento da movimentação do mouse
         canvasEl.addEventListener("mousemove", function(e){
             mouse.x = e.pageX;
             mouse.y = e.pageY;
