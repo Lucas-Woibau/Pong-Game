@@ -71,8 +71,17 @@ const mouse = {x: 0, y: 0}
             y: field.h / 2,
             w: line.w,
             h: 200,
+            speed: 5,
             _move: function(){
-                this.y = ball.y;
+                if(this.y + this.h / 2 < ball.h + ball.r){
+                    this.y += this.speed
+                }else{
+                    this.y -= this.speed
+                }
+            },
+
+            _speedUp: function(){
+                this.speed++;
             },
 
             draw: function(){
@@ -92,33 +101,34 @@ const mouse = {x: 0, y: 0}
             speed: 5,
             directionX:1,
             directionY:1,
-    
+            
             _calcPosition: function(){
             //Verifica se o jogador 1(humano) fez um ponto
                 if(this.x > field.w - this.r - rightPaddle.w - gapX){
-                    if(this.y + this.r > rightPaddle.y && this.y - this.r < rightPaddle.y + rightPaddle.h){
+                    if(this.y + this.r > rightPaddle.y && 
+                        this.y - this.r < rightPaddle.y + rightPaddle.h){
                         //Rebater a bola
                         this._reverseX();
                     }else{
                         //Fazer o ponto
                         score.increaseHuman();
-                        
+                        this._pointUp()
                     }
                 }
 
                 //Verifica se o jogador 2(computador) fez um ponto
-
                 if(this.x < this.r + leftPaddle.w + gapX){
                     if(this.y + this.r > leftPaddle.y &&
-                     this.y - this.r < leftPaddle.y + leftPaddle.h)
-                    //Rebater a bola
-                    this._reverseX();
-                }else{
+                     this.y - this.r < leftPaddle.y + leftPaddle.h){                      
+                         //Rebater a bola
+                         this._reverseX();
+                     }
+                else{
                     //Faz o ponto
                     score.increseaseComputer();
-                    
+                    this._pointUp()
                 }
-
+            } 
             //Calcula a posição vertical da bola (Eixo Y)
                 if(
                 (this.y - this.r < 0 && this.directionY < 0) ||
@@ -140,9 +150,17 @@ const mouse = {x: 0, y: 0}
                 this.y += this.directionY * this.speed;
             },
 
+            _speedUp: function(){
+                this.speed+=3;
+            },
+
             _pointUp: function(){
-                this.x = field.w / 2;
-                this.y = field.h / 2;
+                this.x = field.w / 2
+                this.y = field.h / 2
+
+                this._reverseX()
+                this._speedUp()
+                rightPaddle._speedUp()
             },
 
             draw: function(){
