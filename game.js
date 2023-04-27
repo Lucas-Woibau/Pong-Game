@@ -73,7 +73,7 @@ const mouse = {x: 0, y: 0}
             h: 200,
             speed: 5,
             _move: function(){
-                if(this.y + this.h / 2 < ball.h + ball.r){
+                if(this.y + this.h / 2 < ball.y + ball.r){
                     this.y += this.speed
                 }else{
                     this.y -= this.speed
