@@ -1,6 +1,14 @@
-# Pong-Game
-## HTML5 | CSS3 | JAVASCRIPT
+# Sobre
+https://pong-game-liart.vercel.app/
 
-### Jogo clássico ping-pong utilizando JS puro (Classic ping-pong game using pure JS).
+Jogo clássico ping-pong recriado na web utilizando JavaScript.
 
-<img src="https://github.com/Lucas-Woibau/Pong-Game/blob/master/public/Pong.png?raw=true" width=100%>
+# Layout web
+![web 1](https://github.com/Lucas-Woibau/Pong-Game/blob/master/public/Pong.png?raw=true)
+
+# Como jogar
+- Para controlar a paleta utilize o movimento do mouse (a cada ponto feito, a bola ficará mais rápida)
+
+# Tecnologias utilizadas
+- Html5
+- JavaScript
